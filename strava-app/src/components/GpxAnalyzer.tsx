@@ -15,24 +15,13 @@ const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: numbe
 };
 
 class KalmanFilter1D {
-    R: number; // Bruit de mesure (Incertitude du capteur GPS/Baro)
-    Q: number; // Bruit de processus (Variabilité réelle du terrain)
-    P: number; // Erreur d'estimation
-    X: number; // Valeur estimée (Altitude)
-    K: number; // Gain de Kalman
-
-    constructor(R = 10, Q = 0.1) {
-        this.R = R;
-        this.Q = Q;
-        this.P = 1;
-        this.X = NaN;
-        this.K = 0;
+    R: number; Q: number; P: number; X: number; K: number;
+    constructor(R = 2, Q = 0.5) { // Paramétrage UTMB / Montagne
+        this.R = R; this.Q = Q; this.P = 1; this.X = NaN; this.K = 0;
     }
-
     filter(measurement: number) {
-        if (isNaN(this.X)) {
-            this.X = measurement;
-        } else {
+        if (isNaN(this.X)) this.X = measurement;
+        else {
             this.P = this.P + this.Q;
             this.K = this.P / (this.P + this.R);
             this.X = this.X + this.K * (measurement - this.X);
@@ -42,20 +31,37 @@ class KalmanFilter1D {
     }
 }
 
-const calculateMinettiCost = (i: number) => {
-    const grad = Math.max(-0.45, Math.min(0.45, i));
-    const cost = 155.4 * Math.pow(grad, 5) - 30.4 * Math.pow(grad, 4) - 43.3 * Math.pow(grad, 3) + 46.3 * Math.pow(grad, 2) + 19.5 * grad + 3.6;
-    return cost;
+const calculateStravaGAPFactor = (percentGrad: number) => {
+    const g = Math.max(-30, Math.min(30, percentGrad));
+
+    const a = -5.96892723e-10;
+    const b = -3.66663630e-07;
+    const c = -1.66779606e-06;
+    const d = 1.82471254e-03;
+    const e = 3.01350192e-02;
+    const f = 9.97584372e-01;
+
+    return a * Math.pow(g, 5) + b * Math.pow(g, 4) + c * Math.pow(g, 3) + d * Math.pow(g, 2) + e * g + f;
 };
 
+const formatPace = (seconds: number) => {
+    if (!isFinite(seconds) || seconds <= 0) return "-:--";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
+
+interface GpxSplit {
+    km: number;
+    actualPace: string;
+    gapPace: string;
+}
+
 interface AnalysisResult {
-    distanceKm: string;
-    gapDistanceKm: string;
-    elevationGain: number;
+    splits: GpxSplit[];
     flatPercent: string;
     climbPercent: string;
     downhillPercent: string;
-    technicalityIndex: string; // Heuristique de technicité
 }
 
 export default function GpxAnalyzer() {
@@ -89,15 +95,18 @@ export default function GpxAnalyzer() {
         }
 
         let totalDistance = 0;
-        let totalEnergyCost = 0;
-        let dPlus = 0;
         let distFlat = 0;
         let distClimb = 0;
         let distDown = 0;
 
-        const speeds: number[] = [];
-        const timestamps: number[] = [];
-        const kalman = new KalmanFilter1D(15, 0.05);
+        const splits: GpxSplit[] = [];
+        let cumulativeTime = 0;
+        let cumulativeGapDist = 0;
+        let nextKmTarget = 1000;
+        let splitStartTime = 0;
+        let splitStartGapDist = 0;
+
+        const kalman = new KalmanFilter1D(2, 0.5);
         let previousSmoothedEle = kalman.filter(parseFloat(trkpts[0].getElementsByTagName("ele")[0]?.textContent || "0"));
 
         for (let i = 1; i < trkpts.length; i++) {
@@ -112,54 +121,53 @@ export default function GpxAnalyzer() {
             let deltaTime = 1;
             if (timeStr && prevTimeStr) {
                 deltaTime = (new Date(timeStr).getTime() - new Date(prevTimeStr).getTime()) / 1000;
-                timestamps.push(deltaTime);
             }
 
             const rawEle = parseFloat(trkpts[i].getElementsByTagName("ele")[0]?.textContent || "0");
             const smoothedEle = kalman.filter(rawEle);
-
             const deltaEle = smoothedEle - previousSmoothedEle;
             const dist = calculateDistance(prevLat, prevLon, lat, lon);
 
             if (dist > 0.5) {
-                totalDistance += dist;
-                const speed = dist / Math.max(0.1, deltaTime);
-                speeds.push(speed);
-
-                if (deltaEle > 0.3) dPlus += deltaEle;
-
                 const gradient = deltaEle / dist;
                 const percentGrad = gradient * 100;
-
                 if (percentGrad > 2) distClimb += dist;
                 else if (percentGrad < -2) distDown += dist;
                 else distFlat += dist;
 
-                const costCw = calculateMinettiCost(gradient);
-                const normalizedEffortRatio = costCw / 3.6;
-                totalEnergyCost += dist * normalizedEffortRatio;
+                const normalizedEffortRatio = calculateStravaGAPFactor(percentGrad);
+
+                cumulativeTime += Math.max(0.1, deltaTime);
+                cumulativeGapDist += dist * normalizedEffortRatio;
+                totalDistance += dist;
+
+                if (totalDistance >= nextKmTarget) {
+                    const splitTime = cumulativeTime - splitStartTime;
+                    const splitGapDist = cumulativeGapDist - splitStartGapDist;
+
+                    const actualPaceSecs = splitTime;
+                    const gapPaceSecs = splitTime / (splitGapDist / 1000);
+
+                    splits.push({
+                        km: nextKmTarget / 1000,
+                        actualPace: formatPace(actualPaceSecs),
+                        gapPace: formatPace(gapPaceSecs)
+                    });
+
+                    nextKmTarget += 1000;
+                    splitStartTime = cumulativeTime;
+                    splitStartGapDist = cumulativeGapDist;
+                }
             }
 
             previousSmoothedEle = smoothedEle;
         }
 
-        let speedVariance = 0;
-        if (speeds.length > 0) {
-            const avgSpeed = speeds.reduce((a, b) => a + b, 0) / speeds.length;
-            const sumSquaredDiff = speeds.reduce((acc, val) => acc + Math.pow(val - avgSpeed, 2), 0);
-            speedVariance = sumSquaredDiff / speeds.length;
-        }
-
-        const techIndex = Math.min(100, Math.max(0, (speedVariance * 15)));
-
         setResult({
-            distanceKm: (totalDistance / 1000).toFixed(2),
-            gapDistanceKm: (totalEnergyCost / 1000).toFixed(2),
-            elevationGain: Math.round(dPlus),
+            splits,
             flatPercent: ((distFlat / totalDistance) * 100).toFixed(1),
             climbPercent: ((distClimb / totalDistance) * 100).toFixed(1),
-            downhillPercent: ((distDown / totalDistance) * 100).toFixed(1),
-            technicalityIndex: techIndex.toFixed(0)
+            downhillPercent: ((distDown / totalDistance) * 100).toFixed(1)
         });
         setLoading(false);
     };
@@ -172,7 +180,7 @@ export default function GpxAnalyzer() {
 
             <div className="gpx-upload-box">
                 <p style={{ color: '#6d6d78', marginBottom: '20px', fontSize: '1.1rem' }}>
-                    Traitement algorithmique : Filtre de Kalman 1D, Polynôme de Minetti (GAP) et heuristique de technicité.
+                    Traitement algorithmique (Minetti GAP) : Vitesse réelle vs Allure ajustée à la pente par kilomètre.
                 </p>
                 <input
                     type="file"
@@ -182,28 +190,36 @@ export default function GpxAnalyzer() {
                     onChange={handleFileUpload}
                 />
                 <button className="gpx-analyze-btn" onClick={() => fileInputRef.current?.click()}>
-                    {loading ? 'Traitement algorithmique...' : '📁 Choisir un fichier GPX'}
+                    {loading ? 'Calcul des splits en cours...' : '📁 Choisir un fichier GPX'}
                 </button>
             </div>
 
             {result && (
                 <div className="gpx-results-card">
-                    <h2>Modélisation Physiologique</h2>
 
-                    <div className="gpx-stat-row">
-                        <strong>Distance Mesurée :</strong> <span>{result.distanceKm} km</span>
-                    </div>
-                    <div className="gpx-stat-row">
-                        <strong>Distance d'Effort (GAP Minetti) :</strong> <span style={{color: '#FC4C02', fontWeight: 'bold'}}>{result.gapDistanceKm} km</span>
-                    </div>
-                    <div className="gpx-stat-row">
-                        <strong>Dénivelé positif (Kalman Filter) :</strong> <span>+{result.elevationGain} m</span>
-                    </div>
-                    <div className="gpx-stat-row">
-                        <strong>Indice de Technicité (Variance) :</strong> <span>{result.technicalityIndex} / 100</span>
+                    <h2 style={{ marginBottom: '15px' }}>Allure Ajustée (GAP) par Km</h2>
+                    <div style={{ maxHeight: '400px', overflowY: 'auto', marginBottom: '30px', border: '1px solid #eee', borderRadius: '8px' }}>
+                        <table className="gpx-splits-table">
+                            <thead>
+                            <tr style={{ position: 'sticky', top: 0, backgroundColor: 'white' }}>
+                                <th>Km</th>
+                                <th>Allure brute</th>
+                                <th>Allure ajustée (Effort)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {result.splits.map((split) => (
+                                <tr key={split.km}>
+                                    <td><strong>{split.km}</strong></td>
+                                    <td>{split.actualPace} /km</td>
+                                    <td style={{ color: '#FC4C02', fontWeight: 'bold' }}>{split.gapPace} /km</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
                     </div>
 
-                    <h3 style={{ marginTop: '30px', color: '#6d6d78' }}>Topologie du terrain</h3>
+                    <h3 style={{ color: '#6d6d78', marginTop: '30px' }}>Topologie du terrain</h3>
                     <div className="gpx-stat-row">
                         <strong>Terrain roulant :</strong> <span>{result.flatPercent} %</span>
                     </div>

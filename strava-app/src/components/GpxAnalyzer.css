@@ -64,3 +64,23 @@
 .gpx-stat-row:last-child {
     border-bottom: none;
 }
+
+.gpx-splits-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 1rem;
+}
+.gpx-splits-table th {
+    padding: 12px;
+    color: #6d6d78;
+    border-bottom: 2px solid #eee;
+}
+.gpx-splits-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f5f5f5;
+    color: #242428;
+}
+.gpx-splits-table tr:hover {
+    background-color: #f9f9fc;
+}

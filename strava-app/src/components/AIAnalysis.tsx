@@ -38,26 +38,19 @@ export default function AIAnalysis({ activity }: AIAnalysisProps) {
             const genAI = new GoogleGenerativeAI(apiKey);
             const model = genAI.getGenerativeModel({ model: modelName });
 
-            const distance = (activity.distance / 1000).toFixed(2);
-            const elevation = activity.total_elevation_gain;
-            const type = activity.type;
-            const hr = activity.average_heartrate ? Math.round(activity.average_heartrate) : "non renseignée";
-            const timeMins = Math.round(activity.moving_time / 60);
+            const { map, ...activityDataForAI } = activity;
 
             const prompt = `
         Tu es un coach d'athlétisme expert, spécialisé dans la préparation marathon. 
-        Ton athlète s'entraîne 4 fois par semaine pour un marathon prévu le 26 avril avec un objectif de 3h45 (ce qui correspond à une allure cible d'environ 5:19/km).
+        Ton athlète s'entraîne 4 fois par semaine pour un marathon prévu le 26 avril avec un objectif de 3h45 (ce qui correspond à une allure cible d'environ 5:19/km) et il a une FC max de 202.
         
-        Voici les données de sa dernière sortie (${type}) :
-        - Distance : ${distance} km
-        - Durée : ${timeMins} minutes
-        - Dénivelé positif : ${elevation} mètres
-        - Fréquence cardiaque moyenne : ${hr} bpm
+        Voici l'ensemble des données brutes de sa dernière sortie au format JSON :
+        ${JSON.stringify(activityDataForAI, null, 2)}
 
         Rédige ta réponse en 3 parties claires :
         1. Analyse de la séance : Analyse brièvement cette sortie (intensité, effort, pertinence dans le cadre de la prépa marathon) et encourage-le. Varie toujours tes formulations pour ne jamais être répétitif d'une analyse à l'autre.
         2. Optimisation & Récupération : Donne UN conseil hyper précis et expert (nutrition, hydratation, sommeil, étirements ciblés, cryothérapie, stratégie mentale, etc.). Interdiction de donner toujours le même conseil, sois original et pointu !
-        3. Prochaines étapes du plan : Propose le détail de ses 4 prochaines sorties pour la semaine, optimisées pour viser 3h45 :
+        3. Prochaines étapes du plan : Propose le détail de ses 4 prochaines sorties pour la semaine, optimisées pour viser 3h45 ajuste en fonction de la date de la séance vis à vis de l'objectif :
            - 1 séance de fractionné (précise les durées/distances d'effort, de récupération et les allures cibles).
            - 1 sortie en Endurance Fondamentale (EF) (précise la durée et l'allure ou la FC cible).
            - 1 séance de côtes (précise le nombre de répétitions, la durée de l'effort et la récup).

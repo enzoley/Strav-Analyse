@@ -32,7 +32,7 @@ export default function Activities() {
             try {
                 const response = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
                     headers: { Authorization: `Bearer ${token}` },
-                    params: { per_page: 50 }
+                    params: { per_page: 150 }
                 });
 
                 const allActivities = response.data;

@@ -2,11 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import AuthCallback from './components/AuthCallback';
-
-// Un composant temporaire en attendant de créer la vraie page
-const ActivitiesPlaceholder = () => (
-    <h2 style={{ textAlign: 'center' }}>Liste des activités (À venir !)</h2>
-);
+import Activities from './components/Activities';
 
 function App() {
     return (
@@ -19,7 +15,7 @@ function App() {
                 <Route path="/redirect" element={<AuthCallback />} />
 
                 {/* La future page avec tes tuiles */}
-                <Route path="/activities" element={<ActivitiesPlaceholder />} />
+                <Route path="/activities" element={<Activities />} />
             </Routes>
         </Router>
     );

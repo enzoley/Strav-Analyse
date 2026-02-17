@@ -1,0 +1,121 @@
+/* src/components/Activities.css */
+
+/* Remise à zéro pour que le fond prenne toute la page */
+:global(body) {
+    margin: 0;
+    background-color: #f7f7fa; /* Gris très clair pour le fond */
+}
+
+.activities-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.page-title {
+    color: #1a1919;
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    border-left: 5px solid #FC4C02; /* La fameuse bande orange Strava */
+    padding-left: 15px;
+}
+
+.activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.activity-card {
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+/* L'effet de soulèvement au survol de la souris */
+.activity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.activity-content {
+    padding: 16px;
+}
+
+.activity-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+/* Un petit cercle orange pour faire office d'avatar ou d'icône */
+.activity-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #FC4C02;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.activity-title-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #242428;
+}
+
+.activity-date {
+    margin: 4px 0 0 0;
+    font-size: 0.85rem;
+    color: #6d6d78;
+}
+
+.activity-stats {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #efefef;
+    padding-top: 12px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: #6d6d78;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #242428;
+}
+
+.loader {
+    text-align: center;
+    margin-top: 100px;
+    color: #FC4C02;
+    font-size: 1.5rem;
+    font-weight: bold;
+}

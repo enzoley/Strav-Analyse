@@ -32,10 +32,16 @@ export default function Activities() {
             try {
                 const response = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
                     headers: { Authorization: `Bearer ${token}` },
-                    params: { per_page: 30 }
+                    params: { per_page: 50 }
                 });
 
-                setActivities(response.data);
+                const allActivities = response.data;
+
+                const runsOnly = allActivities.filter(
+                    (activity: StravaActivitySummary) => activity.type === 'Run'
+                );
+
+                setActivities(runsOnly);
             } catch (error) {
                 console.error("Erreur lors de la récupération des activités", error);
                 navigate('/');

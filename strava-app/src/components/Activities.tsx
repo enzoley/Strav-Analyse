@@ -133,14 +133,24 @@ export default function Activities() {
             </aside>
 
             <main>
-                <h1 className="page-title">Mes Séances ({activities.length})</h1>
+                <div className="gpx-header-action" style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '2rem'
+                }}>
+                    <h1 className="page-title" style={{marginBottom: 0}}>Mes Séances ({activities.length})</h1>
+                    <Link to="/gpx-analyzer" className="gpx-analyze-btn" style={{textDecoration: 'none'}}>
+                        📈 Analyse du GPX
+                    </Link>
+                </div>
 
                 <div className="activities-grid">
                     {activities.map((activity) => (
                         <Link to={`/activities/${activity.id}`} key={activity.id} style={{textDecoration: 'none'}}>
                             <div className="activity-card">
 
-                            {activity.map?.summary_polyline ? (
+                                {activity.map?.summary_polyline ? (
                                     <ActivityMap summaryPolyline={activity.map.summary_polyline} />
                                 ) : (
                                     <div style={{ height: '150px', backgroundColor: '#e2e2e2' }} />

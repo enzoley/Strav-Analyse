@@ -1,0 +1,66 @@
+/* src/components/GpxAnalyzer.css */
+
+.gpx-page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.gpx-upload-box {
+    background: white;
+    border: 2px dashed #ccc;
+    padding: 40px;
+    text-align: center;
+    border-radius: 12px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.gpx-analyze-btn {
+    background-color: #242428;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    font-size: 1rem;
+}
+
+.gpx-analyze-btn:hover {
+    background-color: #383838;
+    transform: translateY(-2px);
+}
+
+.gpx-results-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-top: 4px solid #FC4C02;
+}
+
+.gpx-results-card h2 {
+    margin-top: 0;
+    color: #1a1919;
+    margin-bottom: 20px;
+}
+
+.gpx-stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 1.1rem;
+}
+
+.gpx-stat-row:last-child {
+    border-bottom: none;
+}

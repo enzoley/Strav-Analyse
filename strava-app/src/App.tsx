@@ -6,6 +6,7 @@ import Activities from './components/Activities';
 import ActivityDetail from "./components/ActivityDetail.tsx";
 import BannisterModel from './components/BannisterModel';
 import BannisterModelTSS from './components/BannisterModelTSS';
+import GpxAnalyzer from './components/GpxAnalyzer.tsx';
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                 <Route path="/activities/:id" element={<ActivityDetail />} />
                 <Route path="/bannister" element={<BannisterModel />} />
                 <Route path="/bannister-tss" element={<BannisterModelTSS />} />
+                <Route path="/gpx-analyzer" element={<GpxAnalyzer />} />
             </Routes>
         </Router>
     );

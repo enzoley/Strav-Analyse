@@ -168,7 +168,7 @@ export default function GpxAnalyzer() {
         <div className="gpx-page-container">
             <Link to="/activities" style={{ color: '#FC4C02', textDecoration: 'none', fontWeight: 'bold' }}>← Retour au profil</Link>
 
-            <h1 style={{ marginTop: '20px', color: '#1a1919' }}>Analyse Data Science GPX</h1>
+            <h1 style={{ marginTop: '20px', color: '#1a1919' }}>Analyse GPX</h1>
 
             <div className="gpx-upload-box">
                 <p style={{ color: '#6d6d78', marginBottom: '20px', fontSize: '1.1rem' }}>

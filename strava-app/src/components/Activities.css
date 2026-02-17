@@ -119,3 +119,82 @@
     font-size: 1.5rem;
     font-weight: bold;
 }
+
+/* --- LE STYLE DE LA SIDEBAR --- */
+.profile-sidebar {
+    background: white;
+    border-radius: 12px;
+    padding: 25px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    position: sticky; /* La sidebar reste visible quand on scroll ! */
+    top: 20px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #FC4C02;
+    margin-bottom: 12px;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    margin: 0;
+    color: #242428;
+}
+
+.profile-stat-box {
+    border-top: 1px solid #eee;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.profile-stat-val {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #FC4C02;
+    line-height: 1;
+}
+
+.profile-stat-label {
+    color: #6d6d78;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 8px;
+    display: block;
+}
+
+.chart-title {
+    font-size: 1rem;
+    color: #242428;
+    margin: 20px 0 15px 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* On remplace l'ancien activities-container par cette grille à 2 colonnes */
+.activities-page {
+    max-width: 1200px; /* Un peu plus large pour laisser de la place au menu */
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 320px 1fr; /* 320px pour le profil, le reste pour les activités */
+    gap: 30px;
+    align-items: start; /* Empêche la sidebar de s'étirer vers le bas */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Sur mobile, on repasse sur une seule colonne */
+@media (max-width: 900px) {
+    .activities-page {
+        grid-template-columns: 1fr;
+    }
+}

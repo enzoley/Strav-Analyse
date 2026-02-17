@@ -89,7 +89,7 @@ export default function ActivityDetail() {
             if (velocityMs && velocityMs > 0) {
                 const secondsPerKm = 1000 / velocityMs;
                 paceDecimal = secondsPerKm / 60;
-                if(paceDecimal > 30) paceDecimal = null;
+                if(paceDecimal > 9) paceDecimal = null;
             }
 
             formatted.push({
@@ -243,8 +243,9 @@ export default function ActivityDetail() {
                         data={chartData}
                         dataKey="pace"
                         color="#0074D9"
-                        yAxisLabel="/km"
+                        yAxisLabel="min/km"
                         tooltipFormatter={paceTooltipFormatter}
+                        reversed={true}
                     />
 
                     <ActivityChart title="Fréquence Cardiaque" data={chartData} dataKey="heartrate" color="#E71D36" yAxisLabel="bpm" />

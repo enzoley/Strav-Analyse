@@ -10,9 +10,10 @@ interface ActivityChartProps {
     color: string;
     yAxisLabel: string;
     tooltipFormatter?: (value: number) => [string, string];
+    reversed?: boolean;
 }
 
-export default function ActivityChart({ title, data, dataKey, color, yAxisLabel, tooltipFormatter }: ActivityChartProps) {
+export default function ActivityChart({ title, data, dataKey, color, yAxisLabel, tooltipFormatter, reversed }: ActivityChartProps) {
     const hasData = data.some(point => point[dataKey] !== null && point[dataKey] !== undefined);
     if (!hasData) return null;
 
@@ -36,6 +37,7 @@ export default function ActivityChart({ title, data, dataKey, color, yAxisLabel,
                             domain={['auto', 'auto']} // L'échelle s'adapte automatiquement aux données
                             label={{ value: yAxisLabel, angle: -90, position: 'insideLeft' }}
                             width={60}
+                            reversed={reversed}
                         />
                         <Tooltip
                             formatter={formatter as any}

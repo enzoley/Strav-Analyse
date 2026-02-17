@@ -198,3 +198,23 @@
         grid-template-columns: 1fr;
     }
 }
+
+.bannister-link-btn {
+    display: block;
+    margin-top: 25px;
+    background-color: #242428;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-left: 4px solid #7CB5EC; /* Un rappel de la couleur de la courbe de Forme */
+}
+
+.bannister-link-btn:hover {
+    background-color: #383838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}

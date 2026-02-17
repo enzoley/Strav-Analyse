@@ -1,0 +1,61 @@
+/* src/components/BannisterModel.css */
+
+.bannister-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.bannister-header {
+    margin-bottom: 2rem;
+}
+
+.bannister-title {
+    color: #1a1919;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.bannister-subtitle {
+    color: #6d6d78;
+    font-size: 1.1rem;
+}
+
+.bannister-chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.bannister-legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.color-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.loader {
+    text-align: center;
+    margin-top: 100px;
+    color: #FC4C02;
+    font-size: 1.5rem;
+    font-weight: bold;
+}

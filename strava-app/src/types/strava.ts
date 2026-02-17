@@ -15,15 +15,7 @@ export interface StravaActivitySummary {
     map: StravaMap;
     average_speed: number;
     total_elevation_gain: number;
-}
-
-export interface StravaAuthResponse {
-    token_type: string;
-    expires_at: number;
-    expires_in: number;
-    refresh_token: string;
-    access_token: string;
-    athlete: any;
+    average_heartrate?: number;
 }
 
 export interface StravaActivityDetailed extends StravaActivitySummary {

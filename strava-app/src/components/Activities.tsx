@@ -89,7 +89,7 @@ export default function Activities() {
             <aside className="profile-sidebar">
                 {athlete && (
                     <div className="profile-header">
-                        <img src={athlete.profile} alt="Profil" className="profile-pic" />
+                        <img src={athlete.profile} alt="Profil" className="profile-pic"/>
                         <h2 className="profile-name">{athlete.firstname} {athlete.lastname}</h2>
                     </div>
                 )}
@@ -104,23 +104,32 @@ export default function Activities() {
                 )}
 
                 {weeklyData.length > 0 && (
-                    <div style={{ marginTop: '20px', borderTop: '1px solid #eee', paddingTop: '15px' }}>
+                    <div style={{marginTop: '20px', borderTop: '1px solid #eee', paddingTop: '15px'}}>
                         <h3 className="chart-title">Dernières semaines</h3>
-                        <div style={{ width: '100%', height: 180 }}>
+                        <div style={{width: '100%', height: 180}}>
                             <ResponsiveContainer>
-                                <BarChart data={weeklyData} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
-                                    <XAxis dataKey="week" tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+                                <BarChart data={weeklyData} margin={{top: 10, right: 0, left: -25, bottom: 0}}>
+                                    <XAxis dataKey="week" tick={{fontSize: 11}} tickLine={false} axisLine={false}/>
                                     <Tooltip
-                                        cursor={{ fill: '#f5f5f5' }}
+                                        cursor={{fill: '#f5f5f5'}}
                                         formatter={(value: any) => [`${value} km`, 'Distance']}
-                                        labelStyle={{ color: '#242428', fontWeight: 'bold' }}
+                                        labelStyle={{color: '#242428', fontWeight: 'bold'}}
                                     />
-                                    <Bar dataKey="km" fill="#FC4C02" radius={[4, 4, 0, 0]} />
+                                    <Bar dataKey="km" fill="#FC4C02" radius={[4, 4, 0, 0]}/>
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
                     </div>
                 )}
+
+                <div style={{display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '25px'}}>
+                    <Link to="/bannister" className="bannister-link-btn" style={{marginTop: 0}}>
+                        📊 Modèle de Bannister (TRIMP)
+                    </Link>
+                    <Link to="/bannister-tss" className="bannister-link-btn" style={{marginTop: 0}}>
+                        ⚡ Modèle de Bannister (TSS)
+                    </Link>
+                </div>
             </aside>
 
             <main>
@@ -128,10 +137,10 @@ export default function Activities() {
 
                 <div className="activities-grid">
                     {activities.map((activity) => (
-                        <Link to={`/activities/${activity.id}`} key={activity.id} style={{ textDecoration: 'none' }}>
+                        <Link to={`/activities/${activity.id}`} key={activity.id} style={{textDecoration: 'none'}}>
                             <div className="activity-card">
 
-                                {activity.map?.summary_polyline ? (
+                            {activity.map?.summary_polyline ? (
                                     <ActivityMap summaryPolyline={activity.map.summary_polyline} />
                                 ) : (
                                     <div style={{ height: '150px', backgroundColor: '#e2e2e2' }} />

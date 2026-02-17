@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
     "@mapbox/polyline": "^1.2.1",
+    "@mistralai/mistralai": "^1.14.0",
     "axios": "^1.13.5",
     "date-fns": "^4.1.0",
     "leaflet": "^1.9.4",

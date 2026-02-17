@@ -1,0 +1,132 @@
+/* src/components/ActivityDetail.css */
+
+.detail-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.detail-header {
+    margin-bottom: 2rem;
+}
+
+.detail-title {
+    color: #1a1919;
+    font-size: 2.5rem;
+    margin: 0 0 10px 0;
+}
+
+.detail-meta {
+    color: #6d6d78;
+    font-size: 1.1rem;
+}
+
+.back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #FC4C02;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+}
+
+.map-container-large {
+    height: 400px;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+/* Grille pour les sections de statistiques */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.stat-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-top: 4px solid #FC4C02;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    color: #242428;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.stat-row:last-child {
+    margin-bottom: 0;
+}
+
+.stat-name {
+    color: #6d6d78;
+    font-size: 0.95rem;
+}
+
+.stat-val {
+    color: #242428;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.ai-card {
+    background: linear-gradient(145deg, #ffffff, #f0f4f8);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 116, 217, 0.1);
+    border-left: 4px solid #0074D9;
+    margin-top: 30px;
+}
+
+.ai-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.ai-title {
+    font-size: 1.3rem;
+    color: #1a1919;
+    margin: 0;
+}
+
+.ai-content {
+    color: #333;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.ai-button {
+    background-color: #0074D9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.ai-button:hover {
+    background-color: #0056a3;
+}

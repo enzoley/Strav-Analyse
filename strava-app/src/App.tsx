@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import AuthCallback from './components/AuthCallback';
 import Activities from './components/Activities';
+import ActivityDetail from "./components/ActivityDetail.tsx";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
 
                 {/* La future page avec tes tuiles */}
                 <Route path="/activities" element={<Activities />} />
+                <Route path="/activities/:id" element={<ActivityDetail />} />
             </Routes>
         </Router>
     );

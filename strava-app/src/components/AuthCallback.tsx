@@ -7,15 +7,13 @@ export default function AuthCallback() {
     const navigate = useNavigate();
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-    // Cette référence va nous servir de "verrou" pour empêcher le double-appel
     const hasFetched = useRef(false);
 
     useEffect(() => {
         const code = searchParams.get('code');
 
-        // On ajoute la condition !hasFetched.current
         if (code && !hasFetched.current) {
-            hasFetched.current = true; // On verrouille immédiatement
+            hasFetched.current = true;
 
             const fetchToken = async () => {
                 try {

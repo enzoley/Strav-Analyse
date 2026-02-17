@@ -34,13 +34,11 @@ export default function ActivityMap({ summaryPolyline }: ActivityMapProps) {
             dragging={false}
             scrollWheelZoom={false}
         >
-            {/* Ajout du fond de carte OpenStreetMap */}
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {/* Le tracé par-dessus la carte */}
             <Polyline positions={decodedPath} color="#FC4C02" weight={3} />
             <MapBounds positions={decodedPath} />
         </MapContainer>

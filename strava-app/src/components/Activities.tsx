@@ -6,9 +6,8 @@ import { format, parseISO } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { StravaActivitySummary } from '../types/strava';
 import ActivityMap from './ActivityMap';
-import './Activities.css'; // Importation de notre nouveau fichier de style
+import './Activities.css';
 
-// Fonction pour transformer les secondes en heures/minutes
 const formatMovingTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
@@ -63,18 +62,14 @@ export default function Activities() {
                     >
                         <div className="activity-card">
 
-                            {/* Carte */}
                             {activity.map?.summary_polyline ? (
                                 <ActivityMap summaryPolyline={activity.map.summary_polyline} />
                             ) : (
                                 <div style={{ height: '150px', backgroundColor: '#e2e2e2' }} />
                             )}
-
-                            {/* Contenu de la tuile */}
                             <div className="activity-content">
 
                                 <div className="activity-header">
-                                    {/* Avatar utilisant la première lettre du type d'activité (R pour Run, Ride...) */}
                                     <div className="activity-avatar">
                                         {activity.type.charAt(0)}
                                     </div>
@@ -86,7 +81,6 @@ export default function Activities() {
                                     </div>
                                 </div>
 
-                                {/* Statistiques alignées proprement */}
                                 <div className="activity-stats">
                                     <div className="stat-item">
                                         <span className="stat-label">Distance</span>

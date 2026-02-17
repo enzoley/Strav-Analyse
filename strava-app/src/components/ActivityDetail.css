@@ -130,3 +130,105 @@
 .ai-button:hover {
     background-color: #0056a3;
 }
+
+/* --- NOUVEAUX STYLES POUR LES DETAILS --- */
+
+/* Permet à une section de prendre toute la largeur de la grille */
+.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Jauge Suffer Score */
+.suffer-score-container {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #eee;
+}
+.suffer-score-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+.suffer-score-bar-bg {
+    height: 8px;
+    background-color: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.suffer-score-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Tableau des kilomètres (Splits) */
+.table-responsive {
+    overflow-x: auto;
+}
+.splits-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+.splits-table th {
+    padding: 10px;
+    color: #6d6d78;
+    border-bottom: 2px solid #eee;
+    font-weight: 600;
+}
+.splits-table td {
+    padding: 10px;
+    border-bottom: 1px solid #f5f5f5;
+    color: #242428;
+}
+.splits-table tr:hover {
+    background-color: #f9f9fc;
+}
+
+/* Liste des segments */
+.segments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.segment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+.segment-item:last-child {
+    border-bottom: none;
+}
+.segment-info {
+    display: flex;
+    flex-direction: column;
+}
+.segment-name {
+    font-weight: 600;
+    color: #242428;
+}
+.segment-dist {
+    font-size: 0.85rem;
+    color: #6d6d78;
+}
+.segment-stats {
+    text-align: right;
+}
+.segment-time {
+    display: block;
+    font-weight: bold;
+    color: #0074D9;
+}
+.segment-pr {
+    font-size: 0.75rem;
+    background-color: #FFD700;
+    color: #8B6508;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+}

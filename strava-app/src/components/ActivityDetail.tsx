@@ -137,6 +137,9 @@ export default function ActivityDetail() {
                     <div className="stat-row"><span className="stat-name">Temps</span><span className="stat-val">{formatTime(activity.moving_time)}</span></div>
                     <div className="stat-row"><span className="stat-name">Dénivelé +</span><span className="stat-val">{activity.total_elevation_gain} m</span></div>
                     <div className="stat-row"><span className="stat-name">Calories</span><span className="stat-val">{activity.calories || 'N/A'} kcal</span></div>
+                    {activity.gear && (
+                        <div className="stat-row"><span className="stat-name">Chaussures</span><span className="stat-val">👟 {activity.gear.name}</span></div>
+                    )}
                 </div>
                 <div className="stat-section">
                     <h2 className="section-title">Vitesse & Allure</h2>
@@ -152,9 +155,80 @@ export default function ActivityDetail() {
                         {activity.max_heartrate && <div className="stat-row"><span className="stat-name">FC Max</span><span className="stat-val">{activity.max_heartrate} bpm</span></div>}
                         {activity.average_cadence && <div className="stat-row"><span className="stat-name">Cadence moy.</span><span className="stat-val">{Math.round(activity.average_cadence * 2)} spm</span></div>}
                         {activity.average_watts && <div className="stat-row"><span className="stat-name">Puissance moy.</span><span className="stat-val">{Math.round(activity.average_watts)} W</span></div>}
+                        {activity.suffer_score && (
+                            <div className="suffer-score-container">
+                                <div className="suffer-score-header">
+                                    <span className="stat-name">Suffer Score (Intensité)</span>
+                                    <span className="stat-val">{activity.suffer_score}</span>
+                                </div>
+                                <div className="suffer-score-bar-bg">
+                                    <div
+                                        className="suffer-score-bar-fill"
+                                        style={{
+                                            width: `${Math.min((activity.suffer_score / 200) * 100, 100)}%`,
+                                            backgroundColor: activity.suffer_score > 150 ? '#E71D36' : activity.suffer_score > 80 ? '#FF9F1C' : '#2EC4B6'
+                                        }}
+                                    ></div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
+
+            {activity.splits_metric && activity.splits_metric.length > 0 && (
+                <div className="stats-grid" style={{ marginTop: '20px' }}>
+                    <div className="stat-section full-width">
+                        <h2 className="section-title">Temps intermédiaires</h2>
+                        <div className="table-responsive">
+                            <table className="splits-table">
+                                <thead>
+                                <tr>
+                                    <th>Km</th>
+                                    <th>Allure</th>
+                                    <th>Dénivelé</th>
+                                    <th>FC Moyenne</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {activity.splits_metric.map((split, index) => (
+                                    <tr key={index}>
+                                        <td>{split.split}</td>
+                                        <td><strong>{getPaceStr(split.average_speed)}</strong> /km</td>
+                                        <td style={{ color: split.elevation_difference > 0 ? '#E71D36' : (split.elevation_difference < 0 ? '#2EC4B6' : 'inherit') }}>
+                                            {split.elevation_difference > 0 ? '+' : ''}{Math.round(split.elevation_difference)}m
+                                        </td>
+                                        <td>{split.average_heartrate ? `${Math.round(split.average_heartrate)} bpm` : '-'}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {activity.segment_efforts && activity.segment_efforts.length > 0 && (
+                <div className="stats-grid" style={{ marginTop: '20px' }}>
+                    <div className="stat-section full-width">
+                        <h2 className="section-title">Segments Strava ({activity.segment_efforts.length})</h2>
+                        <ul className="segments-list">
+                            {activity.segment_efforts.map((effort) => (
+                                <li key={effort.id} className="segment-item">
+                                    <div className="segment-info">
+                                        <span className="segment-name">{effort.name}</span>
+                                        <span className="segment-dist">{(effort.distance / 1000).toFixed(2)} km</span>
+                                    </div>
+                                    <div className="segment-stats">
+                                        <span className="segment-time">{formatTime(effort.moving_time)}</span>
+                                        {effort.pr_rank && <span className="segment-pr">🏆 PR ({effort.pr_rank}e)</span>}
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            )}
 
             <AIAnalysis activity={activity} />
 

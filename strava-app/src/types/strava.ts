@@ -41,6 +41,9 @@ export interface StravaActivityDetailed extends StravaActivitySummary {
     max_watts?: number;
     suffer_score?: number;
     deviceName?: string;
+    splits_metric?: StravaSplit[];
+    gear?: StravaGear;
+    segment_efforts?: StravaSegmentEffort[];
 }
 
 // La structure brute renvoyée par l'API Streams de Strava
@@ -61,4 +64,29 @@ export interface ChartDataPoint {
     altitude?: number | null;
     pace?: number | null; // Allure en min/km (calculée)
     watts?: number | null;
+}
+
+export interface StravaSplit {
+    split: number;
+    distance: number;
+    elapsed_time: number;
+    moving_time: number;
+    average_speed: number;
+    average_heartrate?: number;
+    elevation_difference: number;
+}
+
+export interface StravaGear {
+    id: string;
+    name: string;
+    distance: number;
+}
+
+export interface StravaSegmentEffort {
+    id: number;
+    name: string;
+    elapsed_time: number;
+    moving_time: number;
+    distance: number;
+    pr_rank?: number;
 }

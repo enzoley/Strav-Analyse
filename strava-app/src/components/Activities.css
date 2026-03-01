@@ -192,13 +192,51 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* Sur mobile, on repasse sur une seule colonne */
+/* --- RESPONSIVE (Tablettes & Mobiles) --- */
+
 @media (max-width: 900px) {
     .activities-page {
         grid-template-columns: 1fr;
+        padding: 1rem; /* On réduit les marges extérieures pour récupérer de la place */
+        gap: 20px;
+    }
+
+    .profile-sidebar {
+        /* On désactive le sticky sur mobile, sinon la sidebar reste figée et masque le reste */
+        position: static;
+        padding: 15px;
     }
 }
 
+/* --- RESPONSIVE (Petits Mobiles) --- */
+@media (max-width: 600px) {
+    .activities-grid {
+        /* Au lieu de forcer à 300px minimum, on empile bêtement sur une seule colonne 100% large */
+        grid-template-columns: 1fr;
+    }
+
+    .gpx-header-action {
+        /* On casse l'alignement horizontal pour empiler le titre et le bouton proprement */
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 15px;
+    }
+
+    .page-title {
+        font-size: 1.6rem; /* On réduit un peu la taille de la police pour éviter les retours à la ligne moches */
+    }
+
+    .profile-pic {
+        width: 90px;
+        height: 90px;
+    }
+
+    .profile-stat-val {
+        font-size: 2rem; /* Légèrement plus petit sur téléphone */
+    }
+}
+
+/* --- BOUTONS BANNISTER --- */
 .bannister-link-btn {
     display: block;
     margin-top: 25px;
@@ -210,7 +248,7 @@
     font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
-    border-left: 4px solid #7CB5EC; /* Un rappel de la couleur de la courbe de Forme */
+    border-left: 4px solid #7CB5EC;
 }
 
 .bannister-link-btn:hover {

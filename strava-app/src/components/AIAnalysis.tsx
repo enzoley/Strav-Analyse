@@ -23,14 +23,25 @@ export default function AIAnalysis({ activity }: AIAnalysisProps) {
 
             const client = new Mistral({ apiKey: apiKey });
 
-            const { map, ...activityDataForAI } = activity;
+            const cleanActivityData = {
+                titre: activity.name,
+                date: activity.start_date,
+                type_seance: activity.type,
+                distance_km: Number((activity.distance / 1000).toFixed(2)),
+                temps_mouvement_minutes: Math.round(activity.moving_time / 60),
+                vitesse_moyenne_kmh: Number((activity.average_speed * 3.6).toFixed(2)),
+                denivele_positif_m: activity.total_elevation_gain,
+                fc_moyenne: activity.average_heartrate || "Non mesurée",
+                fc_max: activity.max_heartrate || "Non mesurée",
+                cadence_pas_par_minute: activity.average_cadence ? Math.round(activity.average_cadence * 2) : "Non mesurée"
+            };
 
             const prompt = `
   Tu es un coach d'athlétisme expert, spécialisé dans la préparation marathon. 
   Ton athlète s'entraîne 4 fois par semaine pour un marathon prévu le 26 avril avec un objectif de 3h45 (ce qui correspond à une allure cible d'environ 5:19/km) et il a une FC max de 202.
   
   Voici l'ensemble des données brutes de sa dernière sortie au format JSON :
-  ${JSON.stringify(activityDataForAI, null, 2)}
+  ${JSON.stringify(cleanActivityData, null, 2)}
 
   Rédige ta réponse en 3 parties claires :
   1. Analyse de la séance : Analyse brièvement cette sortie (intensité, effort, pertinence dans le cadre de la prépa marathon) et encourage-le. Varie toujours tes formulations pour ne jamais être répétitif d'une analyse à l'autre.

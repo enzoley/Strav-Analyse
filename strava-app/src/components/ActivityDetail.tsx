@@ -49,6 +49,38 @@ export default function ActivityDetail() {
 
     useEffect(() => {
         const fetchData = async () => {
+            // --- BYPASS MODE DÉMO ---
+            const isDemo = localStorage.getItem('demo_mode') === 'true';
+
+            // --- BYPASS MODE DÉMO ---
+            if (isDemo) {
+                try {
+                    const { parseGpxForDemo } = await import('../utils/gpxParser');
+
+                    // On fait correspondre l'ID de l'URL avec le bon fichier
+                    const demoFiles: Record<string, string> = {
+                        '1': '/demo1.gpx',
+                        '2': '/demo2.gpx',
+                        '3': '/demo3.gpx'
+                    };
+
+                    // Si le mec bidouille l'URL avec un ID qui n'existe pas, on rabat sur le 1 par défaut
+                    const fileUrl = demoFiles[id || '1'] || '/demo1.gpx';
+
+                    const { activity: gpxAct, chartData: gpxStreams } = await parseGpxForDemo(fileUrl, id || '1');
+
+                    setActivity(gpxAct as any);
+                    setChartData(gpxStreams);
+                } catch (error) {
+                    console.error("Erreur de chargement du GPX :", error);
+                    navigate('/activities');
+                } finally {
+                    setLoading(false);
+                }
+                return;
+            }
+
+            // --- SUITE DU CODE NORMAL (Vraie API Strava) ---
             const token = localStorage.getItem('strava_access_token');
             if (!token) { navigate('/'); return; }
 

@@ -34,12 +34,47 @@ export default function BannisterModelTSS() {
 
     useEffect(() => {
         const fetchData = async () => {
+            const isDemo = localStorage.getItem('demo_mode') === 'true';
+
+            // --- BRANCHE 1 : MODE DÉMO (GPX) ---
+            if (isDemo) {
+                try {
+                    const { parseGpxForDemo } = await import('../utils/gpxParser');
+
+                    // Ta fameuse liste de fichiers démo
+                    const demoFiles = [
+                        { url: '/demo1.gpx', id: '1' },
+                        { url: '/demo2.gpx', id: '2' },
+                        { url: '/demo3.gpx', id: '3' }
+                    ];
+
+                    // On mouline tout en parallèle
+                    const parsedResults = await Promise.all(
+                        demoFiles.map(file => parseGpxForDemo(file.url, file.id))
+                    );
+
+                    const demoActivities = parsedResults.map(res => res.activity);
+
+                    // Tri chronologique indispensable pour que tes courbes TSS/CTL/ATL aient du sens
+                    demoActivities.sort((a: any, b: any) => new Date(a.start_date).getTime() - new Date(b.start_date).getTime());
+
+                    setActivities(demoActivities as any);
+                } catch (error) {
+                    console.error("Erreur de chargement des GPX pour le modèle TSS", error);
+                } finally {
+                    setLoading(false);
+                }
+                return; // FIN DE LA DÉMO
+            }
+
+            // --- BRANCHE 2 : VRAIE CONNEXION STRAVA ---
             const token = localStorage.getItem('strava_access_token');
             if (!token) { navigate('/'); return; }
+
             try {
                 const res = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
                     headers: { Authorization: `Bearer ${token}` },
-                    params: { per_page: 200 }
+                    params: { per_page: 200 } // On tape large pour l'historique
                 });
                 setActivities(res.data);
             } catch (error) {
@@ -48,6 +83,7 @@ export default function BannisterModelTSS() {
                 setLoading(false);
             }
         };
+
         fetchData();
     }, [navigate]);
 

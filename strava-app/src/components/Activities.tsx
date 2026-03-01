@@ -24,10 +24,58 @@ export default function Activities() {
 
     useEffect(() => {
         const fetchData = async () => {
+            const isDemo = localStorage.getItem('demo_mode') === 'true';
+
+            // --- BRANCHE 1 : MODE DÉMO (AVEC LE GPX) ---
+            // --- BRANCHE 1 : MODE DÉMO (MULTI-GPX) ---
+            if (isDemo) {
+                try {
+                    setAthlete({
+                        id: 999999,
+                        firstname: "Jury",
+                        lastname: "Expert",
+                        profile: "https://ui-avatars.com/api/?name=Jury+Expert&background=FC4C02&color=fff&size=128&rounded=true&bold=true"
+                    } as any);
+
+                    setStats({
+                        ytd_run_totals: { distance: 284500 }
+                    } as any);
+
+                    const { parseGpxForDemo } = await import('../utils/gpxParser');
+
+                    // 1. Tu listes tes fichiers ici avec un ID unique pour chacun
+                    const demoFiles = [
+                        { url: '/demo1.gpx', id: '1' },
+                        { url: '/demo2.gpx', id: '2' },
+                        { url: '/demo3.gpx', id: '3' }
+                    ];
+
+                    // 2. On parse tous les fichiers en même temps
+                    const parsedResults = await Promise.all(
+                        demoFiles.map(file => parseGpxForDemo(file.url, file.id))
+                    );
+
+                    // 3. On extrait la partie "activity" et on met à jour le state
+                    const demoActivities = parsedResults.map(res => res.activity);
+
+                    // Petit bonus : on les trie de la plus récente à la plus ancienne
+                    demoActivities.sort((a: any, b: any) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
+
+                    setActivities(demoActivities as any);
+
+                } catch (error) {
+                    console.error("Erreur de chargement des GPX pour la démo", error);
+                } finally {
+                    setLoading(false);
+                }
+                return;
+            }
+
+            // --- BRANCHE 2 : VRAIE CONNEXION STRAVA ---
             const token = localStorage.getItem('strava_access_token');
             if (!token) {
                 navigate('/');
-                return;
+                return; // FIN DE L'EXÉCUTION SI PAS DE TOKEN
             }
 
             try {

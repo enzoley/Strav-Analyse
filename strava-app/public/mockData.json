@@ -1,0 +1,79 @@
+{
+  "athlete": {
+    "id": 999999,
+    "firstname": "Jury",
+    "lastname": "Expert",
+    "profile": "https://ui-avatars.com/api/?name=Jury+Expert&background=FC4C02&color=fff&size=128&rounded=true&bold=true"
+  },
+  "stats": {
+    "ytd_run_totals": {
+      "distance": 284500
+    }
+  },
+  "activities": [
+    {
+      "id": 100000001,
+      "name": "Sortie Longue - Prépa Marathon 🏃‍♂️💨",
+      "type": "Run",
+      "start_date": "2026-02-28T09:30:00Z",
+      "distance": 21150,
+      "moving_time": 6345,
+      "total_elevation_gain": 125.4,
+      "average_speed": 3.33,
+      "average_heartrate": 152,
+      "max_heartrate": 175,
+      "average_cadence": 85,
+      "map": {
+        "summary_polyline": "u{~vH_u~Lz@b@v@z@f@b@d@X|@^r@Xt@Vz@T~@Rz@Pz@Nz@Lz@Jz@Hz@Fz@Dz@Bz@?z@?x@?v@?t@?r@?p@?n@?l@?j@?h@?f@?d@?b@?"
+      }
+    },
+    {
+      "id": 100000002,
+      "name": "Fractionné sur piste 8x400m 🥵",
+      "type": "Run",
+      "start_date": "2026-02-25T18:15:00Z",
+      "distance": 8500,
+      "moving_time": 2550,
+      "total_elevation_gain": 12.0,
+      "average_speed": 3.33,
+      "average_heartrate": 168,
+      "max_heartrate": 192,
+      "average_cadence": 92,
+      "map": {
+        "summary_polyline": "g}i}H}p_M?w@?m@?a@?Q?I?A?@?B?D?F?H?J?L?N?P?R?T?V?X?Z?"
+      }
+    },
+    {
+      "id": 100000003,
+      "name": "Footing de récup en EF 🐢",
+      "type": "Run",
+      "start_date": "2026-02-22T10:00:00Z",
+      "distance": 10200,
+      "moving_time": 3600,
+      "total_elevation_gain": 45.0,
+      "average_speed": 2.83,
+      "average_heartrate": 135,
+      "max_heartrate": 145,
+      "average_cadence": 82,
+      "map": {
+        "summary_polyline": "kf}oH__hL~@q@z@q@z@q@"
+      }
+    },
+    {
+      "id": 100000004,
+      "name": "Sortie rythmée au seuil 🔥",
+      "type": "Run",
+      "start_date": "2026-02-15T12:00:00Z",
+      "distance": 14000,
+      "moving_time": 3900,
+      "total_elevation_gain": 85.0,
+      "average_speed": 3.58,
+      "average_heartrate": 160,
+      "max_heartrate": 182,
+      "average_cadence": 88,
+      "map": {
+        "summary_polyline": "_{g|Hrm~Lw@?m@?a@?Q?I?A?@?B?D?F?H?J?L?N?P?R?T?V?X?Z?"
+      }
+    }
+  ]
+}

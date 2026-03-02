@@ -16,7 +16,7 @@ const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: numbe
 
 class KalmanFilter1D {
     R: number; Q: number; P: number; X: number; K: number;
-    constructor(R = 2, Q = 0.5) { // Paramétrage UTMB / Montagne
+    constructor(R = 2, Q = 0.5) {
         this.R = R; this.Q = Q; this.P = 1; this.X = NaN; this.K = 0;
     }
     filter(measurement: number) {

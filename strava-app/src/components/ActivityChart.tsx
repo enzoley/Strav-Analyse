@@ -34,7 +34,7 @@ export default function ActivityChart({ title, data, dataKey, color, yAxisLabel,
                             minTickGap={50}
                         />
                         <YAxis
-                            domain={['auto', 'auto']} // L'échelle s'adapte automatiquement aux données
+                            domain={['auto', 'auto']}
                             label={{ value: yAxisLabel, angle: -90, position: 'insideLeft' }}
                             width={60}
                             reversed={reversed}

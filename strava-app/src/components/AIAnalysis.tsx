@@ -1,4 +1,3 @@
-// src/components/AIAnalysis.tsx
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Mistral } from '@mistralai/mistralai';

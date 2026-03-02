@@ -1,4 +1,3 @@
-// src/components/ActivityMap.tsx
 import { useEffect } from 'react';
 import { MapContainer, Polyline, TileLayer, useMap } from 'react-leaflet'; // <-- Ajout de TileLayer ici
 import polyline from '@mapbox/polyline';

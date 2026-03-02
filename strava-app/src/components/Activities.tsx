@@ -22,7 +22,6 @@ export default function Activities() {
     const [loading, setLoading] = useState<boolean>(true);
     const navigate = useNavigate();
 
-    // Fonction pour gérer la déconnexion et virer le mode démo
     const handleLogout = () => {
         localStorage.removeItem('demo_mode');
         localStorage.removeItem('strava_access_token');
@@ -33,8 +32,6 @@ export default function Activities() {
         const fetchData = async () => {
             const isDemo = localStorage.getItem('demo_mode') === 'true';
 
-            // --- BRANCHE 1 : MODE DÉMO (AVEC LE GPX) ---
-            // --- BRANCHE 1 : MODE DÉMO (MULTI-GPX) ---
             if (isDemo) {
                 try {
                     setAthlete({
@@ -50,22 +47,18 @@ export default function Activities() {
 
                     const { parseGpxForDemo } = await import('../utils/gpxParser');
 
-                    // 1. Tu listes tes fichiers ici avec un ID unique pour chacun
                     const demoFiles = [
                         { url: '/demo1.gpx', id: '1' },
                         { url: '/demo2.gpx', id: '2' },
                         { url: '/demo3.gpx', id: '3' }
                     ];
 
-                    // 2. On parse tous les fichiers en même temps
                     const parsedResults = await Promise.all(
                         demoFiles.map(file => parseGpxForDemo(file.url, file.id))
                     );
 
-                    // 3. On extrait la partie "activity" et on met à jour le state
                     const demoActivities = parsedResults.map(res => res.activity);
 
-                    // Petit bonus : on les trie de la plus récente à la plus ancienne
                     demoActivities.sort((a: any, b: any) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
 
                     setActivities(demoActivities as any);
@@ -78,11 +71,10 @@ export default function Activities() {
                 return;
             }
 
-            // --- BRANCHE 2 : VRAIE CONNEXION STRAVA ---
             const token = localStorage.getItem('strava_access_token');
             if (!token) {
                 navigate('/');
-                return; // FIN DE L'EXÉCUTION SI PAS DE TOKEN
+                return;
             }
 
             try {
@@ -184,7 +176,6 @@ export default function Activities() {
                     <Link to="/bannister-tss" className="bannister-link-btn" style={{marginTop: 0}}>
                         ⚡ Modèle de Bannister (TSS)
                     </Link>
-                    {/* Bouton de déconnexion ajouté ici */}
                     <button
                         onClick={handleLogout}
                         className="bannister-link-btn"

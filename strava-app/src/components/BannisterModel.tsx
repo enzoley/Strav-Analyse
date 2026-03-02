@@ -31,12 +31,10 @@ export default function BannisterModel() {
         const fetchData = async () => {
             const isDemo = localStorage.getItem('demo_mode') === 'true';
 
-            // --- BRANCHE 1 : MODE DÉMO (GPX) ---
             if (isDemo) {
                 try {
                     const { parseGpxForDemo } = await import('../utils/gpxParser');
 
-                    // On reprend la même liste de fichiers que sur l'accueil
                     const demoFiles = [
                         { url: '/demo1.gpx', id: '1' },
                         { url: '/demo2.gpx', id: '2' },
@@ -49,7 +47,6 @@ export default function BannisterModel() {
 
                     const demoActivities = parsedResults.map(res => res.activity);
 
-                    // On trie bien par date pour que tes calculs de courbes s'enchaînent dans le bon sens temporel
                     demoActivities.sort((a: any, b: any) => new Date(a.start_date).getTime() - new Date(b.start_date).getTime());
 
                     setActivities(demoActivities as any);
@@ -58,17 +55,16 @@ export default function BannisterModel() {
                 } finally {
                     setLoading(false);
                 }
-                return; // FIN DE LA DÉMO
+                return;
             }
 
-            // --- BRANCHE 2 : VRAIE CONNEXION STRAVA ---
             const token = localStorage.getItem('strava_access_token');
             if (!token) { navigate('/'); return; }
 
             try {
                 const res = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
                     headers: { Authorization: `Bearer ${token}` },
-                    params: { per_page: 200 } // On prend 200 activités pour avoir un vrai historique Bannister
+                    params: { per_page: 200 }
                 });
                 setActivities(res.data);
             } catch (error) {

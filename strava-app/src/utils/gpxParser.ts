@@ -1,8 +1,6 @@
-// src/utils/gpxParser.ts
 import polyline from '@mapbox/polyline';
 import { ChartDataPoint } from '../types/strava';
 
-// Formule de Haversine pour la distance entre deux coordonnées
 const getDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
     const R = 6371;
     const dLat = (lat2 - lat1) * (Math.PI / 180);
@@ -38,7 +36,6 @@ export const parseGpxForDemo = async (gpxUrl: string, activityId: string) => {
         const timeStr = pt.querySelector('time')?.textContent;
         const time = timeStr ? new Date(timeStr).getTime() : lastTime;
 
-        // Extraction Cardio & Cadence (souvent dans les balises <gpxtpx:TrackPointExtension>)
         const hrNode = pt.getElementsByTagNameNS('*', 'hr')[0];
         const hr = hrNode ? parseInt(hrNode.textContent || '0') : null;
         if (hr) { hrSum += hr; hrCount++; }
@@ -56,7 +53,6 @@ export const parseGpxForDemo = async (gpxUrl: string, activityId: string) => {
             if (ele > prevEle) totalElev += (ele - prevEle);
         }
 
-        // Calcul de l'allure (min/km)
         let pace = null;
         if (i > 0 && time > lastTime) {
             const timeDiffH = (time - lastTime) / 3600000;
@@ -73,7 +69,7 @@ export const parseGpxForDemo = async (gpxUrl: string, activityId: string) => {
             heartrate: hr,
             cadence: cad,
             watts: null,
-            pace: pace && pace < 15 ? pace : null // Ignore les grosses pauses de plus de 15min/km
+            pace: pace && pace < 15 ? pace : null
         });
 
         path.push([lat, lon]);
@@ -95,7 +91,7 @@ export const parseGpxForDemo = async (gpxUrl: string, activityId: string) => {
             average_speed: avgSpeedMs,
             max_speed: avgSpeedMs * 1.5,
             average_heartrate: hrCount ? Math.round(hrSum / hrCount) : null,
-            map: { summary_polyline: polyline.encode(path) } // On réutilise mapbox/polyline pour la carte
+            map: { summary_polyline: polyline.encode(path) }
         },
         chartData
     };

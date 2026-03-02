@@ -1,11 +1,9 @@
-// src/components/Login.tsx
 import './Login.css';
 
 export default function Login() {
     const handleLogin = () => {
         const clientId = import.meta.env.VITE_STRAVA_CLIENT_ID;
         const redirectUri = import.meta.env.VITE_STRAVA_REDIRECT_URI;
-        // On demande les droits de lecture des activités et des données détaillées (profil)
         const scope = 'activity:read_all,profile:read_all';
 
         const stravaAuthUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&approval_prompt=force&scope=${scope}`;
@@ -14,9 +12,7 @@ export default function Login() {
     };
 
     const handleDemoLogin = () => {
-        // On active le mode démo dans le navigateur
         localStorage.setItem('demo_mode', 'true');
-        // Et on envoie direct sur la page des activités
         window.location.href = '/activities';
     };
 
@@ -24,14 +20,12 @@ export default function Login() {
         <div className="login-container">
             <div className="login-card">
 
-                {/* Logo SVG : Une icône représentant des données/graphiques */}
                 <div className="logo-container">
                     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M3 3v18h18"/>
                         <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
                         <path d="M18.7 4l-5.1 5.2-2.8-2.7L7 10.3" opacity="0.5"/>
-                        {/* Ligne secondaire pour l'effet "analyse" */}
                     </svg>
                 </div>
 
@@ -42,7 +36,6 @@ export default function Login() {
                 </p>
 
                 <button onClick={handleLogin} className="strava-connect-btn">
-                    {/* Petite icône Strava simplifiée dans le bouton */}
                     <svg role="img" viewBox="0 0 24 24" width="20" height="20" fill="white"
                          xmlns="http://www.w3.org/2000/svg"><title>Strava icon</title>
                         <path

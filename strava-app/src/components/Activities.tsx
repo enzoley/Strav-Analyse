@@ -22,6 +22,13 @@ export default function Activities() {
     const [loading, setLoading] = useState<boolean>(true);
     const navigate = useNavigate();
 
+    // Fonction pour gérer la déconnexion et virer le mode démo
+    const handleLogout = () => {
+        localStorage.removeItem('demo_mode');
+        localStorage.removeItem('strava_access_token');
+        navigate('/');
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             const isDemo = localStorage.getItem('demo_mode') === 'true';
@@ -177,6 +184,14 @@ export default function Activities() {
                     <Link to="/bannister-tss" className="bannister-link-btn" style={{marginTop: 0}}>
                         ⚡ Modèle de Bannister (TSS)
                     </Link>
+                    {/* Bouton de déconnexion ajouté ici */}
+                    <button
+                        onClick={handleLogout}
+                        className="bannister-link-btn"
+                        style={{ marginTop: '10px', border: 'none', cursor: 'pointer', backgroundColor: '#e74c3c', color: 'white' }}
+                    >
+                        🚪 Déconnexion
+                    </button>
                 </div>
             </aside>
 

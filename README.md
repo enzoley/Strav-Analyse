@@ -45,4 +45,4 @@ Ce projet n'est pas juste un simple lecteur de flux Strava, c'est un véritable 
 
 ## Rapport
 
-Le rapport de SAP se trouve également à la racine du projet.
+Le rapport de l'UE SAP se trouve à la racine du projet. On y trouve également le support de présentation de la soutenance "Comment la data a gagné l'UTMB ?"
